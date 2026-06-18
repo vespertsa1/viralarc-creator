@@ -550,6 +550,46 @@
       .onboarding-footer { padding: 14px 18px 18px; gap: 5px; }
       .onboarding-title { font-size: 15px; }
     }
+
+    /* ── NAV BRAND SUB ── */
+    .nav-brand-text { display: flex; flex-direction: column; gap: 1px; }
+    .nav-brand-sub  { font-size: 10px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.03em; }
+
+    /* ── EMAIL GATE ── */
+    .gate-wrap { position: relative; }
+    .gate-content { transition: filter 0.4s ease; }
+    .gate-content.locked {
+      filter: blur(12px); pointer-events: none; user-select: none;
+      max-height: 260px; overflow: hidden;
+    }
+    .gate-overlay {
+      position: absolute; inset: 0; z-index: 10;
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .gate-card {
+      background: var(--bg-white); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 32px 36px;
+      text-align: center; box-shadow: var(--shadow-md);
+      max-width: 380px; width: 100%;
+    }
+    .gate-icon { font-size: 36px; margin-bottom: 12px; }
+    .gate-ttl  { font-size: 18px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.01em; }
+    .gate-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 22px; line-height: 1.65; }
+    .gate-form { display: flex; flex-direction: column; gap: 10px; }
+    .gate-input {
+      width: 100%; padding: 11px 14px; text-align: center;
+      border: 1.5px solid var(--border); border-radius: var(--r);
+      font-size: 14px; font-family: inherit; color: var(--text);
+      background: var(--bg); outline: none; transition: border-color var(--ease);
+    }
+    .gate-input:focus { border-color: var(--primary); }
+    .gate-btn {
+      background: var(--primary); color: #fff; border: none;
+      padding: 12px 20px; border-radius: var(--r);
+      font-size: 14px; font-weight: 700; font-family: inherit;
+      cursor: pointer; transition: background var(--ease);
+    }
+    .gate-btn:hover { background: var(--primary-dark); }
   </style>
 </head>
 <body>
@@ -559,7 +599,10 @@
   <div class="nav-inner">
     <a href="#hero" class="nav-brand">
       <img src="./viralarc-apple-icon.png" class="nav-logo" alt="ViralArc">
-      <span class="nav-brand-name">ViralArc</span>
+      <div class="nav-brand-text">
+        <span class="nav-brand-name">ViralArc</span>
+        <span class="nav-brand-sub">影子軍團創作者計畫</span>
+      </div>
     </a>
     <ul class="nav-links">
       <li><a href="#onboarding">教學影片</a></li>
@@ -691,17 +734,30 @@
     <span class="chip">創作素材</span>
     <h2 class="sec-title">本週腳本</h2>
   </div>
-  <div class="fi">
-    <div class="embed-wrapper">
-      <div class="embed-bar">
-        <div class="embed-dot" style="background:#ff5f57"></div>
-        <div class="embed-dot" style="background:#ffbd2e"></div>
-        <div class="embed-dot" style="background:#28c840"></div>
-        <span class="embed-label">本週腳本 · Google Docs</span>
+  <div class="gate-wrap fi">
+    <div class="gate-content locked">
+      <div class="embed-wrapper">
+        <div class="embed-bar">
+          <div class="embed-dot" style="background:#ff5f57"></div>
+          <div class="embed-dot" style="background:#ffbd2e"></div>
+          <div class="embed-dot" style="background:#28c840"></div>
+          <span class="embed-label">本週腳本 · Google Docs</span>
+        </div>
+        <iframe class="docs-embed" src="https://docs.google.com/document/d/1743kotkZ3y8wSZdjHBThEbtUQiYJMJnPWFhHXNAX8xQ/preview" allowfullscreen></iframe>
       </div>
-      <iframe class="docs-embed" src="https://docs.google.com/document/d/1743kotkZ3y8wSZdjHBThEbtUQiYJMJnPWFhHXNAX8xQ/preview" allowfullscreen></iframe>
+      <p class="embed-note">腳本每週一更新。若無法載入，請點此直接開啟 → <a href="https://docs.google.com/document/d/1743kotkZ3y8wSZdjHBThEbtUQiYJMJnPWFhHXNAX8xQ/edit?usp=sharing" id="docs-direct-link" target="_blank" rel="noopener">點我開啟</a></p>
     </div>
-    <p class="embed-note">腳本每週一更新。若無法載入，請點此直接開啟 → <a href="https://docs.google.com/document/d/1743kotkZ3y8wSZdjHBThEbtUQiYJMJnPWFhHXNAX8xQ/edit?usp=sharing" id="docs-direct-link" target="_blank" rel="noopener">點我開啟</a></p>
+    <div class="gate-overlay">
+      <div class="gate-card">
+        <div class="gate-icon">🔒</div>
+        <div class="gate-ttl">請輸入信箱以查看腳本</div>
+        <div class="gate-desc">限已加入影子軍團的創作者<br>輸入一次即可解鎖全站內容</div>
+        <form class="gate-form" onsubmit="unlockGate(event)">
+          <input type="email" class="gate-input" placeholder="your@email.com" required>
+          <button type="submit" class="gate-btn">解鎖內容 →</button>
+        </form>
+      </div>
+    </div>
   </div>
 
 </section>
@@ -836,7 +892,8 @@
     <p style="color:var(--text-muted);font-size:15px;margin:0 auto 28px;max-width:480px">點影片縮圖直接在 Google 雲端觀看，持續更新中</p>
     <a href="https://drive.google.com/drive/folders/1DQ0IoOjLtZKLT7E04iDQ8W4H6fTZhuaf?usp=sharing" target="_blank" rel="noopener" class="btn btn-primary btn-lg">查看完整資料庫 →</a>
   </div>
-  <div class="fi">
+  <div class="gate-wrap fi">
+    <div class="gate-content locked">
     <div class="carousel-track">
       <div class="carousel-inner" id="training-inner" style="gap:16px;align-items:stretch">
         <!-- ── SET 1 ── -->
@@ -969,6 +1026,18 @@
           <div class="vs-thumb" style="background-image:url('https://drive.google.com/thumbnail?id=1oyMLHEFDKg6QaWfCN8tSSlU9Il-LlChW&sz=w320-h180')"></div>
           <div class="vs-body"><span class="vs-badge">Claude 串接 Higgsfield MCP教學</span><div class="vs-title">第四次培訓內容</div></div>
         </a>
+      </div>
+    </div>
+    </div>
+    <div class="gate-overlay">
+      <div class="gate-card">
+        <div class="gate-icon">🔒</div>
+        <div class="gate-ttl">請輸入信箱以查看培訓</div>
+        <div class="gate-desc">限已加入影子軍團的創作者<br>輸入一次即可解鎖全站內容</div>
+        <form class="gate-form" onsubmit="unlockGate(event)">
+          <input type="email" class="gate-input" placeholder="your@email.com" required>
+          <button type="submit" class="gate-btn">解鎖內容 →</button>
+        </form>
       </div>
     </div>
   </div>
@@ -1187,6 +1256,18 @@
       if (!open) item.classList.add('open');
     });
   });
+
+  /* ── email gate ── */
+  function unlockGate(e) {
+    if (e) {
+      e.preventDefault();
+      const inp = e.target.querySelector('input[type="email"]');
+      if (inp) localStorage.setItem('va_email', inp.value.trim());
+    }
+    document.querySelectorAll('.gate-content').forEach(el => el.classList.remove('locked'));
+    document.querySelectorAll('.gate-overlay').forEach(el => el.style.display = 'none');
+  }
+  if (localStorage.getItem('va_email')) unlockGate(null);
 
   /* ── carousel: set animation duration based on content width ── */
   function initCarousel(id, speed) {
